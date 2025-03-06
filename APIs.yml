@@ -1,0 +1,119 @@
+openapi: 3.0.0
+info:
+  title: Music Collection API
+  description: API for retrieving and managing music collections
+  version: 1.0.0
+  license:
+    name: Qube Cinema Technologies Pvt. Ltd.
+    url: https://www.qubecinema.com
+servers:
+  - url: https://api.musiccollection.com/v1
+
+paths:
+  /collections:
+    get:
+      summary: Get all music collections
+      description: Retrieve a list of music collections with details
+      responses:
+        '200':
+          description: A list of music collections
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Collection'
+
+  /collections/{collectionId}:
+    get:
+      summary: Get collection details
+      description: Retrieve detailed information about a specific collection
+      parameters:
+        - name: collectionId
+          in: path
+          required: true
+          description: The ID of the collection to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Collection details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionDetails'
+
+components:
+  schemas:
+    Collection:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "12345"
+        name:
+          type: string
+          example: "EPIC: The Troy Saga (Official Concept Album)"
+        artist:
+          type: string
+          example: "Jorge Rivera-Herrans"
+        type:
+          type: string
+          enum: [EP, Album, Single]
+          example: "EP"
+        songCount:
+          type: integer
+          example: 5
+        durationInSeconds:
+          type: integer
+          example: 900
+        sizeInBytes:
+          type: integer
+          example: 48488
+        releasedOn:
+          type: string
+          format: date-time
+          example: "2024-09-03T14:35:00Z"
+
+    CollectionDetails:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "12345"
+        name:
+          type: string
+          example: "EPIC: The Troy Saga (Official Concept Album)"
+        artist:
+          type: string
+          example: "Jorge Rivera-Herrans"
+        type:
+          type: string
+          enum: [EP, Album, Single]
+          example: "EP"
+        songCount:
+          type: integer
+          example: 5  
+        songs:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+                example: "The Battle of Troy"
+              durationInSeconds:
+                type: integer
+                example: 300
+              sizeInBytes:
+                type: integer
+                example: 48488
+              performers:
+                type: array
+                items:
+                  type: string
+                  example: "Jorge Rivera-Herrans"  
+        releasedOn:
+          type: string
+          format: date-time
+          example: "2024-09-03T14:35:00Z"

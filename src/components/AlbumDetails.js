@@ -25,8 +25,8 @@ const AlbumDetails = ({ apiBase }) => {
   }, [apiBase, albumId]);
 
   if (loading) return <div className="text-center p-4">Loading collection details...</div>;
-  if (error) return <div className="text-red-500 p-4">Error: {error}</div>;
-  if (!collection) return <div className="p-4">Collection not found</div>;
+  if (error) return <div className="text-center p-4">No Data's Given</div>;
+  if (!collection) return <div className="text-center p-4">No Data's Given</div>;
 
   const songData = [
     {

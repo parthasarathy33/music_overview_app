@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const AlbumDetails = ({ apiBase }) => {
   const { albumId } = useParams();
   const [collection, setCollection] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCollectionDetails = async () => {
@@ -91,7 +92,17 @@ const AlbumDetails = ({ apiBase }) => {
 
   return (
     <div className="max-w-5xl mx-auto p-6">
-      <Link to="/" className="text-blue-600 hover:text-blue-800 mb-6 block">← Back to Collections</Link>
+      <div className="flex items-center mb-6 bg-gray-200 p-2 rounded-t-lg shadow-md">
+        <button 
+          onClick={() => navigate(-1)} 
+          className="bg-gray-200 p-2 rounded-l text-black hover:bg-gray-300 transition-colors duration-200 flex items-center"
+        >
+          Overview <span className="ml-1">&gt;</span>
+        </button>
+        <span className="text-black font-semibold ml-4">
+          EPIC: The Troy Saga (Official Concept Album)
+        </span>
+      </div>
       <h1 className="text-2xl font-bold mb-8">{collection.name}</h1>
       
       <div className="bg-white p-8 rounded-lg shadow-md space-y-6">

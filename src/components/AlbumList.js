@@ -238,11 +238,11 @@ const AlbumList = ({ apiBase }) => {
                     <td className="px-4 py-2">
                       <Link 
                         to={`/album/${displayAlbum.id}`} 
-                        className="inline-flex items-center text-link px-4 py-2 rounded transition-colors duration-200"
+                        className="inline-flex items-center text-blue-600 hover:text-blue-800 px-4 py-2 rounded transition-colors duration-200"
                       >
                         <svg 
                           xmlns="http://www.w3.org/2000/svg" 
-                          className="h-5 w-5 mr-2" 
+                          className="h-5 w-5 mr-2 text-blue-600" 
                           fill="none" 
                           viewBox="0 0 24 24" 
                           stroke="currentColor"

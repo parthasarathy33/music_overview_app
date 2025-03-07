@@ -11,13 +11,21 @@ const SongList = ({ apiBase }) => {
         const response = await fetch(`${apiBase}/collections`);
         if (!response.ok) throw new Error('Failed to fetch songs');
         const collections = await response.json();
-        const allSongs = collections.flatMap(collection => 
-          collection.songs.map(song => ({
-            ...song,
-            collectionName: collection.name,
-            artist: collection.artist
-          }))
-        );
+        
+        // Extract all songs from collections
+        const allSongs = [];
+        collections.forEach(collection => {
+          if (collection.songs && Array.isArray(collection.songs)) {
+            collection.songs.forEach(song => {
+              allSongs.push({
+                ...song,
+                collectionName: collection.name,
+                artist: collection.artist
+              });
+            });
+          }
+        });
+        
         setSongs(allSongs);
       } catch (err) {
         setError(err.message);
@@ -31,6 +39,7 @@ const SongList = ({ apiBase }) => {
 
   if (loading) return <div className="text-center p-4">Loading songs...</div>;
   if (error) return <div className="text-red-500 p-4">Error: {error}</div>;
+  if (songs.length === 0) return <div className="text-center p-4">No songs found.</div>;
 
   return (
     <div className="space-y-4">
@@ -41,7 +50,7 @@ const SongList = ({ apiBase }) => {
           <div className="mt-2 text-sm text-gray-600">
             <p>Artist: {song.artist}</p>
             <p>Collection: {song.collectionName}</p>
-            <p>Duration: {Math.floor(song.durationInSeconds / 60)}m {song.durationInSeconds % 60}s</p>
+            {song.duration && <p>Duration: {song.duration}</p>}
           </div>
         </div>
       ))}

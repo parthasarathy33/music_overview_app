@@ -13,12 +13,14 @@
     "start:app": "react-scripts start"
   },
   "dependencies": {
+    "csv-parser": "^3.2.0",
     "json-server": "^0.17.4",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.0.0",
-    "react-scripts": "^3.0.1"
+    "react-scripts": "^3.0.1",
+    "uuid": "^11.1.0"
   },
   "license": "MIT",
   "author": "",

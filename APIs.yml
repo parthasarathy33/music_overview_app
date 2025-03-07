@@ -1,119 +1,135 @@
 openapi: 3.0.0
 info:
-  title: Music Collection API
-  description: API for retrieving and managing music collections
-  version: 1.0.0
-  license:
-    name: Qube Cinema Technologies Pvt. Ltd.
-    url: https://www.qubecinema.com
+  title: Music Collections API
+  version: 2.0.0
+  description: Unified API for music collections management
+
 servers:
+  - url: http://localhost:3001
+    description: Local development server
   - url: https://api.musiccollection.com/v1
+    description: Production server
 
 paths:
   /collections:
     get:
       summary: Get all music collections
-      description: Retrieve a list of music collections with details
+      description: Retrieve paginated list of music collections with essential details
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
       responses:
         '200':
-          description: A list of music collections
+          description: A paginated list of music collections
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Collection'
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Collection'
+                  total:
+                    type: integer
 
   /collections/{collectionId}:
     get:
       summary: Get collection details
-      description: Retrieve detailed information about a specific collection
+      description: Retrieve complete details for a specific collection
       parameters:
         - name: collectionId
           in: path
           required: true
-          description: The ID of the collection to retrieve
           schema:
             type: string
       responses:
         '200':
-          description: Collection details
+          description: Detailed collection information
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CollectionDetails'
+        '404':
+          description: Collection not found
 
 components:
   schemas:
     Collection:
       type: object
+      required:
+        - id
+        - name
+        - artist
+        - type
       properties:
         id:
           type: string
-          example: "12345"
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
         name:
           type: string
           example: "EPIC: The Troy Saga (Official Concept Album)"
+          pattern: '^[a-zA-Z0-9(): ]+$'  # Allow proper collection names
         artist:
           type: string
           example: "Jorge Rivera-Herrans"
+          minLength: 3
         type:
           type: string
-          enum: [EP, Album, Single]
+          enum: [Album, EP, Single]
           example: "EP"
         songCount:
-          type: integer
-          example: 5
+          description: Number of songs in the collection
+          minimum: 1  # Require at least 1 song
         durationInSeconds:
-          type: integer
-          example: 900
+          description: Total duration in seconds
+          minimum: 30
+          maximum: 86400  # 24 hour max duration
         sizeInBytes:
-          type: integer
-          example: 48488
+          description: Total size in bytes
+          minimum: 1024
+          maximum: 1073741824  # 1GB max size
         releasedOn:
-          type: string
-          format: date-time
+          description: ISO 8601 release timestamp
           example: "2024-09-03T14:35:00Z"
 
     CollectionDetails:
+      allOf:
+        - $ref: '#/components/schemas/Collection'
+        - type: object
+          properties:
+            songs:
+              type: array
+              items:
+                $ref: '#/components/schemas/Song'
+              minItems: 1
+
+    Song:
       type: object
+      required:
+        - title
+        - durationInSeconds
       properties:
-        id:
+        title:
           type: string
-          example: "12345"
-        name:
-          type: string
-          example: "EPIC: The Troy Saga (Official Concept Album)"
-        artist:
-          type: string
-          example: "Jorge Rivera-Herrans"
-        type:
-          type: string
-          enum: [EP, Album, Single]
-          example: "EP"
-        songCount:
-          type: integer
-          example: 5  
-        songs:
+          example: "The Battle of Troy"
+        durationInSeconds:
+          minimum: 30
+          maximum: 7200
+        sizeInBytes:
+          minimum: 102400  # 100KB
+        performers:
           type: array
           items:
-            type: object
-            properties:
-              title:
-                type: string
-                example: "The Battle of Troy"
-              durationInSeconds:
-                type: integer
-                example: 300
-              sizeInBytes:
-                type: integer
-                example: 48488
-              performers:
-                type: array
-                items:
-                  type: string
-                  example: "Jorge Rivera-Herrans"  
-        releasedOn:
-          type: string
-          format: date-time
-          example: "2024-09-03T14:35:00Z"
+            type: string
+          minItems: 1
+          example: ["Jorge Rivera-Herrans"]

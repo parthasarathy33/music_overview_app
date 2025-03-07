@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 const ArtistList = ({ apiBase }) => {
   const [artists, setArtists] = useState([]);
+  const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -10,8 +11,9 @@ const ArtistList = ({ apiBase }) => {
       try {
         const response = await fetch(`${apiBase}/collections`);
         if (!response.ok) throw new Error('Failed to fetch artists');
-        const collections = await response.json();
-        const uniqueArtists = [...new Set(collections.map(c => c.artist))];
+        const data = await response.json();
+        setCollections(data);
+        const uniqueArtists = [...new Set(data.map(c => c.artist))];
         setArtists(uniqueArtists);
       } catch (err) {
         setError(err.message);
@@ -28,14 +30,12 @@ const ArtistList = ({ apiBase }) => {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-3xl font-bold mb-6">Artists</h1>
+      <h1 className="text-3xl font-bold mb-6 text-left">Artists Overview</h1>
       {artists.map((artist, index) => (
-        <div key={index} className="p-4 bg-white rounded-lg shadow-md">
+        <div key={index} className="p-4 bg-white rounded-lg shadow-md border">
           <h2 className="text-lg font-semibold">{artist}</h2>
           <p className="text-sm text-gray-600 mt-2">
-            Collections: {
-              collections.filter(c => c.artist === artist).length
-            }
+            Collections: {collections.filter(c => c.artist === artist).length}
           </p>
         </div>
       ))}

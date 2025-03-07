@@ -10,6 +10,7 @@ const AlbumList = ({ apiBase }) => {
   const [search, setSearch] = useState("");
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [isTypeFilterOpen, setIsTypeFilterOpen] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
 
   useEffect(() => {
     const fetchAlbums = async () => {
@@ -123,6 +124,21 @@ const AlbumList = ({ apiBase }) => {
     fetchAlbums();
   }, [apiBase]);
 
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearch(value);
+
+    if (value) {
+      const filteredSuggestions = albums.filter(album =>
+        album.name.toLowerCase().includes(value.toLowerCase()) ||
+        album.artist.toLowerCase().includes(value.toLowerCase())
+      );
+      setSuggestions(filteredSuggestions);
+    } else {
+      setSuggestions([]);
+    }
+  };
+
   const handleTypeChange = (type) => {
     setSelectedTypes((prevTypes) =>
       prevTypes.includes(type)
@@ -160,21 +176,32 @@ const AlbumList = ({ apiBase }) => {
   if (error) return <div className="text-red-500 p-4">Error: {error}</div>;
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 text-sm">
       <h2 className="text-2xl font-semibold mb-4 text-left">Overview</h2>
       <div className="flex gap-4 mb-4 items-center">
-        <input
-          type="text"
-          placeholder="Search..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-64 p-2 border rounded"
-        />
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={search}
+            onChange={handleSearchChange}
+            className="w-64 p-2 border rounded"
+          />
+          {suggestions.length > 0 && (
+            <div className="absolute top-full mt-1 w-64 bg-white border rounded shadow-lg z-10">
+              {suggestions.map((suggestion, index) => (
+                <div key={index} className="px-2 py-1 hover:bg-gray-100 cursor-pointer">
+                  {suggestion.name} - {suggestion.artist}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
         
         <div className="relative">
           <button
             onClick={() => setIsTypeFilterOpen(!isTypeFilterOpen)}
-            className="border rounded p-2 flex items-center gap-2 bg-white hover:bg-blue-50 transition-colors duration-200"
+            className="border rounded p-2 flex items-center gap-2 bg-gray-200 hover:bg-gray-300 transition-colors duration-200"
           >
             <span>Type {selectedTypes.length > 0 ? `(${selectedTypes.length})` : ''}</span>
             <svg 
@@ -238,11 +265,12 @@ const AlbumList = ({ apiBase }) => {
                     <td className="px-4 py-2">
                       <Link 
                         to={`/album/${displayAlbum.id}`} 
-                        className="inline-flex items-center text-blue-600 hover:text-blue-800 px-4 py-2 rounded transition-colors duration-200"
+                        className="inline-flex items-center text-blue-800 hover:text-blue-900 px-4 py-2 rounded transition-colors duration-200"
+                        style={{ fontFamily: 'Arial, sans-serif' }}
                       >
                         <svg 
                           xmlns="http://www.w3.org/2000/svg" 
-                          className="h-5 w-5 mr-2 text-blue-600" 
+                          className="h-5 w-5 mr-2 text-blue-800" 
                           fill="none" 
                           viewBox="0 0 24 24" 
                           stroke="currentColor"

@@ -1,0 +1,84 @@
+{
+  "collections": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440001",
+      "name": "EPIC: The Troy Saga (Official Concept Album)",
+      "artist": "Jorge Rivera-Herrans",
+      "type": "Album",
+      "songCount": 8,
+      "durationInSeconds": 6360,
+      "sizeInBytes": 47185920,
+      "releasedOn": "2024-09-03T14:35:00Z",
+      "songs": [
+        {
+          "title": "The Trojan Horse",
+          "durationInSeconds": 272,
+          "sizeInBytes": 4500000,
+          "performers": [
+            "Jorge Rivera-Herrans"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440002",
+      "name": "EPIC: The Ocean Saga (Official Concept Album)",
+      "artist": "Jorge Rivera-Herrans",
+      "type": "EP",
+      "songCount": 4,
+      "durationInSeconds": 4440,
+      "sizeInBytes": 31457280,
+      "releasedOn": "2024-09-04T10:00:00Z",
+      "songs": [
+        {
+          "title": "Neptune's Wrath",
+          "durationInSeconds": 540,
+          "sizeInBytes": 3145728,
+          "performers": [
+            "Jorge Rivera-Herrans"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440003",
+      "name": "EPIC: The Ithaca Saga (Official Concept Album)",
+      "artist": "Jorge Rivera-Herrans",
+      "type": "Album",
+      "songCount": 12,
+      "durationInSeconds": 8640,
+      "sizeInBytes": 67108864,
+      "releasedOn": "2024-10-10T14:35:00Z",
+      "songs": [
+        {
+          "title": "Odysseus' Return",
+          "durationInSeconds": 720,
+          "sizeInBytes": 7340032,
+          "performers": [
+            "Jorge Rivera-Herrans"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440010",
+      "name": "The Hero's Journey",
+      "artist": "Various Artists",
+      "type": "Single",
+      "songCount": 1,
+      "durationInSeconds": 80,
+      "sizeInBytes": 25165824,
+      "releasedOn": "2024-10-11T12:31:00Z",
+      "songs": [
+        {
+          "title": "Hero's Theme",
+          "durationInSeconds": 80,
+          "sizeInBytes": 25165824,
+          "performers": [
+            "Orchestral Ensemble"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -255,9 +255,9 @@ const AlbumList = ({ apiBase }) => {
           </thead>
           <tbody>
             {displayedAlbums.length > 0 ? (
-              displayedAlbums.map((album, index) => {
-                // Modify 4th item (index 3)
-                const displayAlbum = index === 3 ? {...album, type: 'Single'} : album;
+              displayedAlbums.map((album) => {
+                // Use the original album object instead
+                const displayAlbum = album;
                 const songCount = displayAlbum.type === 'Single' ? 1 : (displayAlbum.songs?.length || 0);
                 
                 return (
